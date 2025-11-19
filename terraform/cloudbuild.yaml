@@ -10,6 +10,7 @@ steps:
   - name: 'hashicorp/terraform:latest'
     args: ['plan', '-out=tfplan']
     dir: '/*'
+
     
 
   # (Optional) Apply Terraform changes
@@ -67,3 +68,4 @@ options:
 # #   - '-c'
 # #   - |
 # #     terraform apply --auto-approve tfplan
+
