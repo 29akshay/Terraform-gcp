@@ -1,73 +1,44 @@
-
-# cloudbuild.yaml
 steps:
-  # Initialize Terraform
-  - name: 'hashicorp/terraform:latest'
-    args: ['init', '-backend-config=bucket=${bakend}'] # Replace with your state bucket
-    dir: 'terraform/' # Adjust if your Terraform files are in a subdirectory
+  # Initialize Terraform with the GCS backend bucket from the substitution
+  - id: "terraform-init"
+    name: "hashicorp/terraform:1.5.7"
+    entrypoint: "sh"
+    args:
+      - -c
+      - |
+        set -e
+        terraform init -backup= -backend-config="bucket=${bakend}"
+    dir: "terraform"
 
-  # Generate Terraform Plan
-  - name: 'hashicorp/terraform:latest'
-    args: ['plan', '-out=tfplan']
-    dir: 'terraform/'
+  # Create a plan and print it (so it's visible in build logs)
+  - id: "terraform-plan"
+    name: "hashicorp/terraform:1.5.7"
+    entrypoint: "sh"
+    args:
+      - -c
+      - |
+        set -e
+        terraform plan -out=tfplan
+        terraform show -no-color tfplan
+    dir: "terraform"
 
-    
-
-  # (Optional) Apply Terraform changes
-  # Consider using manual approval for production environments
-  # - name: 'hashicorp/terraform:latest'
-  #   args: ['apply', 'tfplan']
-  #   dir: 'terraform/'
+  # OPTIONAL: apply step (recommended behind manual approval for prod)
+  # - id: "terraform-apply"
+  #   name: "hashicorp/terraform:1.5.7"
+  #   entrypoint: "sh"
+  #   args:
+  #     - -c
+  #     - |
+  #       set -e
+  #       terraform apply -auto-approve tfplan
+  #   dir: "terraform"
 
 substitutions:
-  _TF_STATE_BUCKET: 'bakend' # Define your GCS bucket for Terraform state
+  # Replace with your actual GCS bucket name used for Terraform remote state
+  _TF_STATE_BUCKET: "bakend"
 
+# Allow longer runs for provisioning, adjust if needed
+timeout: "1200s"
 
-
-
-
-# steps:
-#   - name: hashicorp/terraform:light
-#     entrypoint: sh
-#     args:
-#       - -c
-#       - |
-#         terraform init
-#         terraform plan -out=tfplan
-#         terraform apply -auto-approve tfplan
-#     dir: terraform
-
-# timeout: "1200s"
-
-# serviceAccount: ${{ secrets.service_account }}"
 options:
   logging: CLOUD_LOGGING_ONLY
-  
-
-# # steps:
-# # - id: 'terraform init'
-# #   name: 'hashicorp/terraform:1.0.0' # Or your preferred Terraform version
-# #   entrypoint: 'sh'
-# #   args:
-# #   - '-c'
-# #   - |
-# #     terraform init
-
-# # - id: 'terraform plan'
-# #   name: 'hashicorp/terraform:1.0.0'
-# #   entrypoint: 'sh'
-# #   args:
-# #   - '-c'
-# #   - |
-# #     terraform plan -out=tfplan
-
-# # - id: 'terraform apply'
-# #   name: 'hashicorp/terraform:1.0.0'
-# #   entrypoint: 'sh'
-# #   args:
-# #   - '-c'
-# #   - |
-# #     terraform apply --auto-approve tfplan
-
-
-
