@@ -7,7 +7,9 @@ steps:
       - -c
       - |
         set -e
-        terraform init -backup= -backend-config="bucket=${bakend}"
+        terraform init \
+          -backend-config="bucket=${bakend}" \
+          -backend-config="prefix=terraform/state"
     dir: "terraform"
 
   # Create a plan and print it (so it's visible in build logs)
@@ -22,7 +24,7 @@ steps:
         terraform show -no-color tfplan
     dir: "terraform"
 
-  # OPTIONAL: apply step (recommended behind manual approval for prod)
+  # OPTIONAL: apply step
   # - id: "terraform-apply"
   #   name: "hashicorp/terraform:1.5.7"
   #   entrypoint: "sh"
@@ -34,10 +36,8 @@ steps:
   #   dir: "terraform"
 
 substitutions:
-  # Replace with your actual GCS bucket name used for Terraform remote state
-  _TF_STATE_BUCKET: "bakend"
+  _TF_STATE_BUCKET: "bakend"   # <-- replace with your real GCS bucket name
 
-# Allow longer runs for provisioning, adjust if needed
 timeout: "1200s"
 
 options:
