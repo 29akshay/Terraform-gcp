@@ -1,6 +1,7 @@
 data "google_secret_manager_secret_version" "cred" {
     project = var.project_id
     secret = "cred"
+}
 provider "google" {
     project = var.project_id
     region = var.region
@@ -46,4 +47,5 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
