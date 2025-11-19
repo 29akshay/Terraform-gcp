@@ -1,10 +1,12 @@
-
+data "google_secret_manager_secret_version" "cred" {
+    project = var.project_id
+    secret = "cred"
 provider "google" {
     project = var.project_id
     region = var.region
     zone = var.zone
 
-    credentials = file("./cred.json")
+    credentials = data.google_secret_manager_secret_version.cred.secret_data
 }
 
 terraform {
@@ -17,7 +19,7 @@ terraform {
     backend "gcs" {
         bucket = "terraform-logging"
         prefix = "terraform/state"
-        credentials = "./cred.json"
+        credentials = data.google_secret_manager_secret_version.cred.secret_data
     }
 }
 
@@ -44,3 +46,4 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
