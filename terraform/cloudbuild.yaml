@@ -1,0 +1,69 @@
+
+# cloudbuild.yaml
+steps:
+  # Initialize Terraform
+  - name: 'hashicorp/terraform:latest'
+    args: ['init', '-backend-config=bucket=${terraform-logging}'] # Replace with your state bucket
+    dir: '/*' # Adjust if your Terraform files are in a subdirectory
+
+  # Generate Terraform Plan
+  - name: 'hashicorp/terraform:latest'
+    args: ['plan', '-out=tfplan']
+    dir: '/*'
+    
+
+  # (Optional) Apply Terraform changes
+  # Consider using manual approval for production environments
+  # - name: 'hashicorp/terraform:latest'
+  #   args: ['apply', 'tfplan']
+  #   dir: 'terraform/'
+
+substitutions:
+  _TF_STATE_BUCKET: 'terraform-logging' # Define your GCS bucket for Terraform state
+
+
+
+
+
+# steps:
+#   - name: hashicorp/terraform:light
+#     entrypoint: sh
+#     args:
+#       - -c
+#       - |
+#         terraform init
+#         terraform plan -out=tfplan
+#         terraform apply -auto-approve tfplan
+#     dir: terraform
+
+# timeout: "1200s"
+
+# serviceAccount: ${{ secrets.service_account }}"
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
+
+# # steps:
+# # - id: 'terraform init'
+# #   name: 'hashicorp/terraform:1.0.0' # Or your preferred Terraform version
+# #   entrypoint: 'sh'
+# #   args:
+# #   - '-c'
+# #   - |
+# #     terraform init
+
+# # - id: 'terraform plan'
+# #   name: 'hashicorp/terraform:1.0.0'
+# #   entrypoint: 'sh'
+# #   args:
+# #   - '-c'
+# #   - |
+# #     terraform plan -out=tfplan
+
+# # - id: 'terraform apply'
+# #   name: 'hashicorp/terraform:1.0.0'
+# #   entrypoint: 'sh'
+# #   args:
+# #   - '-c'
+# #   - |
+# #     terraform apply --auto-approve tfplan
