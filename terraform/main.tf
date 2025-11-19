@@ -20,7 +20,6 @@ terraform {
     backend "gcs" {
         bucket = "terraform-logging"
         prefix = "terraform/state"
-        credentials = data.google_secret_manager_secret_version.cred.secret_data
     }
 }
 
@@ -47,5 +46,6 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
