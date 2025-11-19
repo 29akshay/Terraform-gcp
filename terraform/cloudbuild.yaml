@@ -4,12 +4,12 @@ steps:
   # Initialize Terraform
   - name: 'hashicorp/terraform:latest'
     args: ['init', '-backend-config=bucket=${terraform-logging}'] # Replace with your state bucket
-    dir: '/*' # Adjust if your Terraform files are in a subdirectory
+    dir: 'terraform/' # Adjust if your Terraform files are in a subdirectory
 
   # Generate Terraform Plan
   - name: 'hashicorp/terraform:latest'
     args: ['plan', '-out=tfplan']
-    dir: '/*'
+    dir: 'terraform/'
 
     
 
@@ -68,4 +68,5 @@ options:
 # #   - '-c'
 # #   - |
 # #     terraform apply --auto-approve tfplan
+
 
