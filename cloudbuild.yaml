@@ -3,7 +3,7 @@
 steps:
   # Initialize Terraform
   - name: 'hashicorp/terraform:latest'
-    args: ['init', '-backend-config=bucket=${terraform-logging}'] # Replace with your state bucket
+    args: ['init', '-backend-config=bucket=${bakend}'] # Replace with your state bucket
     dir: 'terraform/' # Adjust if your Terraform files are in a subdirectory
 
   # Generate Terraform Plan
@@ -20,7 +20,7 @@ steps:
   #   dir: 'terraform/'
 
 substitutions:
-  _TF_STATE_BUCKET: 'terraform-logging' # Define your GCS bucket for Terraform state
+  _TF_STATE_BUCKET: 'bakend' # Define your GCS bucket for Terraform state
 
 
 
