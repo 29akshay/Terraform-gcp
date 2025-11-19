@@ -18,7 +18,7 @@ terraform {
         }
     }
     backend "gcs" {
-        bucket = "terraform-logging"
+        bucket = "backend"
         prefix = "terraform/state"
     }
 }
@@ -46,6 +46,7 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
 
