@@ -13,6 +13,7 @@ steps:
 
     
 
+
   # (Optional) Apply Terraform changes
   # Consider using manual approval for production environments
   # - name: 'hashicorp/terraform:latest'
@@ -68,5 +69,6 @@ options:
 # #   - '-c'
 # #   - |
 # #     terraform apply --auto-approve tfplan
+
 
 
