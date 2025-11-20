@@ -7,7 +7,7 @@ provider "google" {
     region = var.region
     zone = var.zone
 
-    credentials = data.google_secret_manager_secret_version.cred.secret_data
+
 }
 
 terraform {
@@ -47,6 +47,7 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
 
