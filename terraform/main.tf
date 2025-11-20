@@ -18,7 +18,7 @@ terraform {
         }
     }
     backend "gcs" {
-        bucket = "bakend"
+        bucket = "terraform-logging"
         prefix = "terraform/state"
     }
 }
@@ -26,7 +26,7 @@ terraform {
 
 # gcp instance
 resource "google_compute_instance" "vm_instance" {
-  name         = "example-instance"
+  name         = "Test-instance"
   machine_type = "e2-medium"
   zone         = var.zone
 
@@ -46,6 +46,7 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
 
