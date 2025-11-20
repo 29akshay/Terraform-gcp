@@ -31,5 +31,7 @@ steps:
  #     - apply
  #     - tfplan
  #   dir: "terraform/"
- substitutions:
+substitutions:
   _TF_STATE_BUCKET: 'terraform-logging' # Define your GCS bucket for Terraform state
+options:
+  logging: CLOUD_LOGGING_ONLY
