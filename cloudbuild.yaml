@@ -1,44 +1,33 @@
 steps:
-  # Initialize Terraform with the GCS backend bucket from the substitution
-  - id: "terraform-init"
-    name: "hashicorp/terraform:1.5.7"
-    entrypoint: "sh"
-    args:
-      - -c
-      - |
-        set -e
-        terraform init -reconfigure \
-          -backend-config="bucket=${terraform-logging}" \
-          -backend-config="prefix=terraform/state"
-    dir: "terraform"
-
-  # Create a plan and print it (so it's visible in build logs)
-  - id: "terraform-plan"
-    name: "hashicorp/terraform:1.5.7"
-    entrypoint: "sh"
-    args:
-      - -c
-      - |
-        set -e
-        terraform plan -out=tfplan
-        terraform show -no-color tfplan
-    dir: "terraform"
-
-  # OPTIONAL: apply step
-  # - id: "terraform-apply"
-  #   name: "hashicorp/terraform:1.5.7"
-  #   entrypoint: "sh"
-  #   args:
-  #     - -c
-  #     - |
-  #       set -e
-  #       terraform apply -auto-approve tfplan
-  #   dir: "terraform"
-
-substitutions:
-  _TF_STATE_BUCKET: "terraform-logging"   # <-- replace with your real GCS bucket name
-
-timeout: "1200s"
-
-options:
-  logging: CLOUD_LOGGING_ONLY
+ # ---------------------------------------------------
+ # 1. Export GOOGLE_CREDENTIALS from Secret Manager
+ #    & Terraform Init with GCS backend
+ # ---------------------------------------------------
+ - name: "hashicorp/terraform:latest"
+   entrypoint: sh
+   args:
+     - -c
+     - |
+       echo "Fetching credentials from Secret Manager..."
+       export GOOGLE_CREDENTIALS="$(gcloud secrets versions access latest --secret=cred)"
+       echo "Running Terraform Init..."
+       terraform init \
+         -backend-config="bucket=terraform-logging" \
+         -backend-config="prefix=terraform/state"
+   dir: "terraform/"
+ # ---------------------------------------------------
+ # 2. Terraform Plan
+ # ---------------------------------------------------
+ - name: "hashicorp/terraform:latest"
+   args:
+     - plan
+     - -out=tfplan
+   dir: "terraform/"
+ # ---------------------------------------------------
+ # 3. Terraform Apply (optional)
+ # ---------------------------------------------------
+ # - name: "hashicorp/terraform:latest"
+ #   args:
+ #     - apply
+ #     - tfplan
+ #   dir: "terraform/"
