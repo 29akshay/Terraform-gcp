@@ -8,7 +8,7 @@ steps:
       - |
         set -e
         terraform init \
-          -backend-config="bucket=${bakend}" \
+          -backend-config="bucket=${terraform-logging}" \
           -backend-config="prefix=terraform/state"
     dir: "terraform"
 
@@ -36,7 +36,7 @@ steps:
   #   dir: "terraform"
 
 substitutions:
-  _TF_STATE_BUCKET: "bakend"   # <-- replace with your real GCS bucket name
+  _TF_STATE_BUCKET: "terraform-logging"   # <-- replace with your real GCS bucket name
 
 timeout: "1200s"
 
