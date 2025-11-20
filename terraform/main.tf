@@ -27,7 +27,7 @@ terraform {
 
 # gcp instance
 resource "google_compute_instance" "vm_instance" {
-  name         = "Test-VM_01"
+  name         = "test-vm01"
   machine_type = "e2-medium"
   zone         = var.zone
 
@@ -47,6 +47,7 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
 
