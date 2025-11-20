@@ -24,6 +24,7 @@ terraform {
 }
 
 
+
 # gcp instance
 resource "google_compute_instance" "vm_instance" {
   name         = "Test-instance"
@@ -46,6 +47,7 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
 
