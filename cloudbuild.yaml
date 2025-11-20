@@ -7,7 +7,7 @@ steps:
       - -c
       - |
         set -e
-        terraform init \
+        terraform init -reconfigure \
           -backend-config="bucket=${terraform-logging}" \
           -backend-config="prefix=terraform/state"
     dir: "terraform"
