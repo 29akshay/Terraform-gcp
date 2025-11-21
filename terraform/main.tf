@@ -12,6 +12,7 @@ resource "google_compute_network" "vpc" {
   auto_create_subnetworks = false
 }
 
+
 # PUBLIC SUBNET
 
 resource "google_compute_subnetwork" "public_subnet" {
@@ -80,6 +81,7 @@ resource "google_compute_instance" "vm_instance" {
 
   tags = ["web", "dev"]
 }
+
 
 
 
