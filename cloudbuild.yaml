@@ -26,12 +26,12 @@ steps:
  # ---------------------------------------------------
  # 3. Terraform Apply (optional)
  # ---------------------------------------------------
-- name: "hashicorp/terraform:latest"
-  args: 
-    -  "apply" ,
-    - "-auto-approve" ,
-    - "tfplan"
-  dir: "terraform/"
+ - name: "hashicorp/terraform:latest"
+    args:
+      - apply
+      - -auto-approve
+      - tfplan
+    dir: "terraform/"
   
 
 substitutions:
