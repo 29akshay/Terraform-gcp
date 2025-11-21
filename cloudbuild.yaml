@@ -26,11 +26,11 @@ steps:
  # ---------------------------------------------------
  # 3. Terraform Apply (optional)
  # ---------------------------------------------------
- # - name: "hashicorp/terraform:latest"
- #   args:
- #     - apply
- #     - tfplan
- #   dir: "terraform/"
+ - name: "hashicorp/terraform:latest"
+   args:
+     - apply
+     - tfplan
+   dir: "terraform/"
 substitutions:
   _TF_STATE_BUCKET: 'terraform-logging' # Define your GCS bucket for Terraform state
 options:
