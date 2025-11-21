@@ -29,6 +29,7 @@ steps:
 - name: "hashicorp/terraform:latest"
   args: ["apply", "-auto-approve", "tfplan"]
   dir: "terraform/"
+  
 
 substitutions:
   _TF_STATE_BUCKET: 'terraform-logging' # Define your GCS bucket for Terraform state
