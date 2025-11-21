@@ -28,9 +28,9 @@ steps:
  # ---------------------------------------------------
 - name: "hashicorp/terraform:latest"
   args: 
-    -  apply ,
-    - -auto-approve
-    - tfplan
+    -  "apply" ,
+    - "-auto-approve" ,
+    - "tfplan"
   dir: "terraform/"
   
 
