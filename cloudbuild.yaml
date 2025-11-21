@@ -32,6 +32,7 @@ steps:
      - -auto-approve
      - tfplan
    dir: "terraform/"
+
   
 
 substitutions:
