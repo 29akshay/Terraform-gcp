@@ -39,7 +39,6 @@ steps:
    args:
      - destroy
      - -auto-approve
-     - tfplan
    dir: "terraform/"
 
   
